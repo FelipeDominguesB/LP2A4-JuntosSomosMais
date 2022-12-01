@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.challenge.helpers.CSVHelper;
+import com.challenge.helpers.JSONHelper;
 import com.challenge.models.Insumo;
 
 @RestController
@@ -25,6 +26,17 @@ public class InsumoController {
 	{
 		try {
 			List<Insumo> insumos = CSVHelper.csvToInsumo(file.getInputStream());
+			return insumos;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
+	@PostMapping("json")
+	List<Insumo> sendJson(MultipartFile file)
+	{
+		try {
+			List<Insumo> insumos = JSONHelper.JSONToInsumo(file.getInputStream());
 			return insumos;
 		} catch (IOException e) {
 			return null;
