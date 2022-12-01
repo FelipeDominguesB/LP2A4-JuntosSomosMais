@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class InsumoController {
-
+	
+	
+	@GetMapping("/teste")
+	String pegarTeste()
+	{
+		return "Olá, Mundo!";
+	}
 	
 }
