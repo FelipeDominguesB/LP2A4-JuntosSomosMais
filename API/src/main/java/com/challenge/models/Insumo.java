@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,15 +46,16 @@ public class Insumo {
 	@JoinColumn(name = "location_id", referencedColumnName = "id")
 	private Location location;
 	
-	/*
-
 	
-	@Column(name = "nameInfo")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "picture_id", referencedColumnName = "id")
+	private PictureInfo pictureInfo;
+	
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "nameInfo_id", referencedColumnName = "id")
 	private NameInfo name;
 	
-	@Column(name = "pictureInfo")
-	private PictureInfo pictureInfo;
-	*/
 	@Column(name = "nationality")
 	private String nationality;
 	
@@ -91,7 +91,6 @@ public class Insumo {
 		this.type = type;
 	}
 
-	/*
 	public NameInfo getName() {
 		return name;
 	}
@@ -100,6 +99,7 @@ public class Insumo {
 		this.name = name;
 	}
 
+	
 	public PictureInfo getPictureInfo() {
 		return pictureInfo;
 	}
@@ -107,7 +107,6 @@ public class Insumo {
 	public void setPictureInfo(PictureInfo pictureInfo) {
 		this.pictureInfo = pictureInfo;
 	}
-	*/
 	
 	public Location getLocation() {
 		return location;

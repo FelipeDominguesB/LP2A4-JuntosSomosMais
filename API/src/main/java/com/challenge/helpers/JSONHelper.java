@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import com.challenge.models.Coordinates;
 import com.challenge.models.Insumo;
-import com.challenge.models.Location;
 import com.challenge.models.NameInfo;
 import com.challenge.models.PictureInfo;
 import com.challenge.models.Timezone;
@@ -44,28 +43,27 @@ public class JSONHelper {
 				JSONObject dobObj = (JSONObject) jsonObj.get("dob");
 				JSONObject registeredObj = (JSONObject) jsonObj.get("registered");
 				
-	    		  /*
-				insumo.gender = ((String) jsonObj.get("gender")).toUpperCase().charAt(0);
-				insumo.email = (String) jsonObj.get("email");
-				insumo.name = new NameInfo((String) nameObj.get("title"), (String) nameObj.get("first"), (String) nameObj.get("last"));
-				insumo.cellPhone = (String) jsonObj.get("cell");
-				insumo.telePhone = (String) jsonObj.get("phone");
-				insumo.pictureInfo = new PictureInfo((String) pictureObj.get("large"), (String) pictureObj.get("medium"), (String) pictureObj.get("thumbnail"));
-				
-				insumo.location.coordinates = new Coordinates((String) coordinatesObj.get("latitude"), (String) coordinatesObj.get("longitude"));
-				insumo.location.timezones = new Timezone((String) timezoneObj.get("offset"), (String) timezoneObj.get("offset"));
-				insumo.setType(GeneralHelpers.GerarTipo(insumo.getLocation().coordinates));
+	    		 
+				insumo.setGender(((String) jsonObj.get("gender")).toUpperCase().charAt(0));
+				insumo.setEmail((String) jsonObj.get("email"));
+				insumo.setName(new NameInfo((String) nameObj.get("title"), (String) nameObj.get("first"), (String) nameObj.get("last")));
+				insumo.setCellPhone((String) jsonObj.get("cell"));
+				insumo.setTelePhone((String) jsonObj.get("phone"));
+				insumo.setPictureInfo(new PictureInfo((String) pictureObj.get("large"), (String) pictureObj.get("medium"), (String) pictureObj.get("thumbnail")));
+				insumo.getLocation().setCoordinates(new Coordinates((String) coordinatesObj.get("latitude"), (String) coordinatesObj.get("longitude")));
+				insumo.getLocation().setTimezones(new Timezone((String) timezoneObj.get("offset"), (String) timezoneObj.get("offset")));
+				insumo.setType(GeneralHelpers.GerarTipo(insumo.getLocation().getCoordinates()));
 				insumo.setNationality("BR");
 				
 				DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 				DateTime dt = dtf.parseDateTime((String) dobObj.get("date"));
-				insumo.dateOfBirth = dt.toDate();
+				insumo.setDateOfBirth(dt.toDate());
 				
 				dt = dtf.parseDateTime((String) registeredObj.get("date"));
-				insumo.registeredDate = dt.toDate();
+				insumo.setRegisteredDate(dt.toDate());
 		    	
 				insumos.add(insumo);
-				*/
+				
 			}
 			
 			

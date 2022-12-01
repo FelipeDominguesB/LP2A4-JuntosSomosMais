@@ -1,8 +1,8 @@
 package com.challenge.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,15 +47,15 @@ public class Location {
 	@OneToOne(mappedBy = "location")
 	private Insumo insumo;
 	
-	//private Coordinates coordinates;
-	//private Timezone timezones;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "coordinates_id", referencedColumnName = "id")
+	private Coordinates coordinates;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "timezones_id", referencedColumnName = "id")
+	private Timezone timezones;
 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public String getRegion() {
 		return region;
 	}
@@ -85,6 +85,18 @@ public class Location {
 	}
 	public void setPostcode(int postcode) {
 		this.postcode = postcode;
+	}
+	public Coordinates getCoordinates() {
+		return coordinates;
+	}
+	public void setCoordinates(Coordinates coordinates) {
+		this.coordinates = coordinates;
+	}
+	public Timezone getTimezones() {
+		return timezones;
+	}
+	public void setTimezones(Timezone timezones) {
+		this.timezones = timezones;
 	}
 
 	
