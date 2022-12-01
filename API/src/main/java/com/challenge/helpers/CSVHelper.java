@@ -62,15 +62,14 @@ public class CSVHelper {
 				    	  insumo.location.timezones = new Timezone(csvRecord.get("location__timezone__offset"), csvRecord.get("location__timezone__description"));
 				    	  insumo.type = GeneralHelpers.GerarTipo(insumo.location.coordinates);
 				    	  insumo.nationality = "BR";
-				    	  insumo.region = GeneralHelpers.GetRegiao(insumo.location.state);
 				    	  
 				    	  
 				    	  DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 				    	  DateTime dt = dtf.parseDateTime(csvRecord.get("dob__date"));
-				    	  insumo.dateOfBirth = new DateInfo(dt.toDate());
+				    	  insumo.dateOfBirth = dt.toDate();
 				    	  
 				    	  dt = dtf.parseDateTime(csvRecord.get("registered__date"));
-				    	  insumo.registeredDate = new DateInfo(dt.toDate());
+				    	  insumo.registeredDate = dt.toDate();
 				    	  
 				    	  
 				    	  insumos.add(insumo);

@@ -36,7 +36,7 @@ public class InsumoMap {
 		List<Insumo> insumosFiltrados = new ArrayList<Insumo>();
 		for(Insumo insumo : new ArrayList<Insumo>(insumos.values()))
 		{
-			if(insumo.type.equals(type) && insumo.region.equals(region))
+			if(insumo.type.equals(type) && insumo.location.region.equals(region))
 			{
 				insumosFiltrados.add(insumo);
 			}

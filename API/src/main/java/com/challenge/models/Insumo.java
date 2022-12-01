@@ -1,5 +1,7 @@
 package com.challenge.models;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,13 +17,13 @@ public class Insumo {
 	public String email;
 	public NameInfo name;
 	public Location location;
-	public DateInfo dateOfBirth;
-	public DateInfo registeredDate;
+	public Date dateOfBirth;
+	public Date registeredDate;
 	public String telePhone;
 	public String cellPhone;
 	public PictureInfo pictureInfo;
 	public String nationality;
-	public String region;
+	
 	
 	
 }

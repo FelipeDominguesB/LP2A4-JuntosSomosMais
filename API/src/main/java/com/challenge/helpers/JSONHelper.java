@@ -14,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.challenge.models.Coordinates;
-import com.challenge.models.DateInfo;
 import com.challenge.models.Insumo;
 import com.challenge.models.Location;
 import com.challenge.models.NameInfo;
@@ -57,14 +56,13 @@ public class JSONHelper {
 				insumo.location.timezones = new Timezone((String) timezoneObj.get("offset"), (String) timezoneObj.get("offset"));
 				insumo.type = GeneralHelpers.GerarTipo(insumo.location.coordinates);
 				insumo.nationality = "BR";
-				insumo.region = GeneralHelpers.GetRegiao(insumo.location.state);
 				
 				DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 				DateTime dt = dtf.parseDateTime((String) dobObj.get("date"));
-				insumo.dateOfBirth = new DateInfo(dt.toDate());
+				insumo.dateOfBirth = dt.toDate();
 				
 				dt = dtf.parseDateTime((String) registeredObj.get("date"));
-				insumo.registeredDate = new DateInfo(dt.toDate());
+				insumo.registeredDate = dt.toDate();
 		    	
 				insumos.add(insumo);
 			}
