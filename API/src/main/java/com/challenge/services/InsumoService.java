@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,13 +28,30 @@ public class InsumoService {
 	}
 	
 	
-	public Optional<Insumo> getInsumoById()
+	public Optional<Insumo> getInsumoById(Optional<Long> id)
 	{
-		return this.repo.findById((long) 1);
+		return this.repo.findById(id.orElse((long) 1));
 	}
-	public List<Insumo> getInsumos()
+	
+	public Page<Insumo> getInsumosByRegionAndType(int index, int size,  Optional<String> region, Optional<String> type)
 	{
-		return this.repo.findAll();
+		
+		String regionValue = region.orElse(null);
+		String typeValue = type.orElse(null);
+		
+		if(regionValue == null && typeValue == null) return this.getInsumos(index, size);
+		
+		if(typeValue == null) return this.repo.findByRegion(regionValue, (Pageable) PageRequest.of(index, size));
+		if(regionValue == null) return this.repo.findByType(typeValue, (Pageable) PageRequest.of(index, size));
+		
+		return this.repo.findByRegionAndType(regionValue, typeValue, (Pageable) PageRequest.of(index, size));
+		
+		
+	}
+	
+	public Page<Insumo> getInsumos(int index, int size)
+	{
+		return this.repo.findAll(PageRequest.of(index, size));
 	}
 	public List<Insumo> saveInsumos(List<Insumo> insumos)
 	{

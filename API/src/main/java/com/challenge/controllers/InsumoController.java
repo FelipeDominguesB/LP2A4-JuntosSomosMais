@@ -1,9 +1,12 @@
 package com.challenge.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,30 +31,44 @@ public class InsumoController {
 	}
 	
 	
-	@GetMapping("id")
-	ResponseEntity<Optional<Insumo>> getById()
+	@GetMapping("byId")
+	ResponseEntity<Optional<Insumo>> getById(Optional<Long> id)
 	{	
 		try {
-			Optional<Insumo> insumos = this.insumoService.getInsumoById();
+			Optional<Insumo> insumo = this.insumoService.getInsumoById(id);
 			 
-			if(insumos == null) throw new Exception("Sem registros");
-			return new ResponseEntity<Optional<Insumo>>(insumos, HttpStatus.OK);	
+			if(insumo.isEmpty()) throw new Exception("Sem registros");
+			return new ResponseEntity<Optional<Insumo>>(insumo, HttpStatus.OK);	
 		} catch (Exception e) {
-			return new ResponseEntity<Optional<Insumo>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		//return map.pegarInsumosPaginados(this.insumoService.getInsumoList(type, region), size, index);
 	}
 	
 	@GetMapping()
-	ResponseEntity<List<Insumo>> get(@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "1") int index, @RequestParam() Optional<String> type, @RequestParam Optional<String> region)
+	ResponseEntity<Map<String, Object>> get(@RequestParam(defaultValue = "0") int index, @RequestParam(defaultValue = "5") int size, @RequestParam() Optional<String> type, @RequestParam Optional<String> region)
 	{	
+		Map<String, Object> response = new HashMap<>();
 		try {
-			List<Insumo> insumos = this.insumoService.getInsumos();
-			 
-			if(insumos == null) throw new Exception("Sem registros");
-			return new ResponseEntity<List<Insumo>>(insumos, HttpStatus.OK);	
+
+			
+			Page<Insumo> insumoPage = this.insumoService.getInsumosByRegionAndType(index, size, region, type);
+			List<Insumo> insumos = insumoPage.toList();
+			
+			
+			if(insumos.size() == 0) throw new Exception("Sem registros");
+			
+			
+			response.put("results", insumos);
+			response.put("pageSize", insumoPage.getSize());
+			response.put("pageNumber", insumoPage.getNumber());
+			response.put("totalPages", insumoPage.getTotalPages());
+			response.put("totalSize", insumoPage.getTotalElements());
+			return new ResponseEntity<>(response, HttpStatus.OK);	
 		} catch (Exception e) {
-			return new ResponseEntity<List<Insumo>>(HttpStatus.NO_CONTENT);
+			
+			response.clear();
+			response.put("Error message:", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
