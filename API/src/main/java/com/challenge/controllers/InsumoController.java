@@ -1,5 +1,8 @@
 package com.challenge.controllers;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,15 +11,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.challenge.helpers.CSVHelper;
+import com.challenge.models.Insumo;
 
 @RestController
 public class InsumoController {
 	
 	
-	@GetMapping("/teste")
-	String pegarTeste()
+	@PostMapping("csv")
+	List<Insumo> sendCSV(MultipartFile file)
 	{
-		return "Olá, Mundo!";
+		try {
+			List<Insumo> insumos = CSVHelper.csvToInsumo(file.getInputStream());
+			return insumos;
+		} catch (IOException e) {
+			return null;
+		}
 	}
-	
 }
