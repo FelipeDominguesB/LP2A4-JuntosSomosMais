@@ -59,10 +59,10 @@ public class InsumoController {
 	}
 	
 	@PostMapping("csv")
-	List<Insumo> sendCSV(MultipartFile file)
+	List<Insumo> sendCSV()
 	{
 		try {
-			List<Insumo> insumos = CSVHelper.csvToInsumo(file.getInputStream());
+			List<Insumo> insumos = CSVHelper.csvToInsumo(new URL("https://storage.googleapis.com/juntossomosmais-code-challenge/input-backend.csv").openStream());
 			for(Insumo insumo : insumos)
 			{
 				map.InsereInsumo(insumo);
@@ -75,7 +75,7 @@ public class InsumoController {
 	}
 	
 	@PostMapping("json")
-	List<Insumo> sendJson(MultipartFile file)
+	List<Insumo> sendJson()
 	{
 		try {
 			List<Insumo> insumos = JSONHelper.JSONToInsumo(new URL("https://storage.googleapis.com/juntossomosmais-code-challenge/input-backend.json").openStream());
