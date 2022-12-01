@@ -1,0 +1,39 @@
+body{
+    display: flex;
+    flex-direction: row;
+}
+
+section{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+aside{
+
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+}
+
+
+div.content-card{
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    border: solid 1px;
+    margin: 10px;
+}
+
+div.content-card img{
+    padding: 10px;
+}
+
+div.card-text{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}

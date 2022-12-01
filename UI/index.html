@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/main.css">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+        <label>Filtrar por região</label>
+        <label>
+            <input type="radio" name="region" checked value="NONE">Nenhuma
+        </label>
+        <label>
+            <input type="radio" name="region" value="NORTE">Norte
+        </label>
+        <label>
+            <input type="radio" name="region" value="NORDESTE">Nordeste
+        </label>
+        <label>
+            <input type="radio" name="region" value="CENTRO-OESTE">Centro-Oeste
+        </label>
+        <label>
+            <input type="radio" name="region" value="SUL">Sul
+        </label>
+        <label>
+            <input type="radio" name="region" value="SUDESTE">Sudeste
+        </label>
+        <br><br>
+        <label>Filtrar por tipo</label>
+        <label>
+            <input type="radio" name="type" checked value="NONE">Nenhum
+        </label>
+        <label>
+            <input type="radio" name="type" value="Trabalhoso">Trabalhoso
+        </label>
+        <label>
+            <input type="radio" name="type" value="Especial">Especial
+        </label>
+        <label>
+            <input type="radio" name="type" value="Normal">Normal
+        </label>
+
+        <br><br>
+
+        <div class="sizing">
+            <label>Tamanho da página:</label>
+            <select name="size" id="sizeSelect">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+        <br><br>
+        <div class="pagination">
+            <button id='prev'>Anterior</button>
+            <label id="pageInfo"></label>
+            <button id="next">Próximo</button>
+        </div>
+    </section>
+    <aside class="content">
+
+    </aside>
+    
+   
+
+    <script src="./scripts/main.js"></script>
+</body>
+</html>
+
