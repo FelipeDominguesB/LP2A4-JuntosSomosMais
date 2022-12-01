@@ -1,7 +1,19 @@
 package com.challenge.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity(name = "NameInfo")
+@Table(name = "nameInfo")
 public class NameInfo {
 
+	public NameInfo() {}
+	
 	public NameInfo(String title, String first, String last)
 	{
 		this.title = title;
@@ -9,6 +21,20 @@ public class NameInfo {
 		this.last = last;
 	}
 	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id")
+	private Long id;
+	
+	@Column(name = "title")
+	private String title;
+	@Column(name = "first")
+	private String first;
+	@Column(name = "last")
+	private String last;
+
+	@OneToOne(mappedBy = "name")
+	private Insumo insumo;
+	
+
 	public String getTitle() {
 		return title;
 	}
@@ -28,7 +54,5 @@ public class NameInfo {
 		this.last = last;
 	}
 
-	private String title;
-	private String first;
-	private String last;
+	
 }
