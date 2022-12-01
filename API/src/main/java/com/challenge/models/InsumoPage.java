@@ -1,4 +1,4 @@
-package com.challenge.models;
+ package com.challenge.models;
 
 import java.util.*;
 

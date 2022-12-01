@@ -44,18 +44,18 @@ public class JSONHelper {
 				JSONObject dobObj = (JSONObject) jsonObj.get("dob");
 				JSONObject registeredObj = (JSONObject) jsonObj.get("registered");
 				
-	    		  
+	    		  /*
 				insumo.gender = ((String) jsonObj.get("gender")).toUpperCase().charAt(0);
 				insumo.email = (String) jsonObj.get("email");
 				insumo.name = new NameInfo((String) nameObj.get("title"), (String) nameObj.get("first"), (String) nameObj.get("last"));
 				insumo.cellPhone = (String) jsonObj.get("cell");
 				insumo.telePhone = (String) jsonObj.get("phone");
 				insumo.pictureInfo = new PictureInfo((String) pictureObj.get("large"), (String) pictureObj.get("medium"), (String) pictureObj.get("thumbnail"));
-				insumo.location = new Location((String) locationObj.get("street"), (String) locationObj.get("city"), (String) locationObj.get("state"), (Integer) locationObj.get("postcode"));
+				
 				insumo.location.coordinates = new Coordinates((String) coordinatesObj.get("latitude"), (String) coordinatesObj.get("longitude"));
 				insumo.location.timezones = new Timezone((String) timezoneObj.get("offset"), (String) timezoneObj.get("offset"));
-				insumo.type = GeneralHelpers.GerarTipo(insumo.location.coordinates);
-				insumo.nationality = "BR";
+				insumo.setType(GeneralHelpers.GerarTipo(insumo.getLocation().coordinates));
+				insumo.setNationality("BR");
 				
 				DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 				DateTime dt = dtf.parseDateTime((String) dobObj.get("date"));
@@ -65,6 +65,7 @@ public class JSONHelper {
 				insumo.registeredDate = dt.toDate();
 		    	
 				insumos.add(insumo);
+				*/
 			}
 			
 			

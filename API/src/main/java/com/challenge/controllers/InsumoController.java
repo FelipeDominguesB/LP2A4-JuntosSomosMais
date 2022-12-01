@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,64 +26,72 @@ import com.challenge.helpers.CSVHelper;
 import com.challenge.helpers.JSONHelper;
 import com.challenge.models.Insumo;
 import com.challenge.models.InsumoPage;
-import com.challenge.repositories.InsumoMap;
 import com.challenge.services.InsumoService;
 
 @RestController
 @RequestMapping("/api/insumos")
 public class InsumoController {
 	
-	InsumoMap map;
 	InsumoService insumoService;
-	
 	@Autowired
 	InsumoController(InsumoService insumoService)
 	{
-		map = new InsumoMap();
 		this.insumoService = insumoService;
 	}
 	
 	
-	@GetMapping()
-	InsumoPage get(@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "1") int index, @RequestParam() Optional<String> type, @RequestParam Optional<String> region)
+	@GetMapping("id")
+	ResponseEntity<Optional<Insumo>> getById()
 	{	
-		
-		return map.pegarInsumosPaginados(this.insumoService.getInsumoList(type, region), size, index);
+		try {
+			Optional<Insumo> insumos = this.insumoService.getInsumoById();
+			 
+			if(insumos == null) throw new Exception("Sem registros");
+			return new ResponseEntity<Optional<Insumo>>(insumos, HttpStatus.OK);	
+		} catch (Exception e) {
+			return new ResponseEntity<Optional<Insumo>>(HttpStatus.NO_CONTENT);
+		}
+		//return map.pegarInsumosPaginados(this.insumoService.getInsumoList(type, region), size, index);
+	}
+	
+	@GetMapping()
+	ResponseEntity<List<Insumo>> get(@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "1") int index, @RequestParam() Optional<String> type, @RequestParam Optional<String> region)
+	{	
+		try {
+			List<Insumo> insumos = this.insumoService.getInsumos();
+			 
+			if(insumos == null) throw new Exception("Sem registros");
+			return new ResponseEntity<List<Insumo>>(insumos, HttpStatus.OK);	
+		} catch (Exception e) {
+			return new ResponseEntity<List<Insumo>>(HttpStatus.NO_CONTENT);
+		}
+		//return map.pegarInsumosPaginados(this.insumoService.getInsumoList(type, region), size, index);
 	}
 	
 	
 	@PostMapping("csv")
-	List<Insumo> sendCSV(MultipartFile file)
+	ResponseEntity<List<Insumo>> sendCSV(MultipartFile file)
 	{
 		try {
 			List<Insumo> insumos = this.insumoService.readInsumosFromCSV(file);
 			 
 			if(insumos == null) throw new Exception("Erro ao ler CSV");
-			for(Insumo insumo : insumos)
-			{
-				map.InsereInsumo(insumo);
-			}
-			
-			return map.pegarInsumos();
+			return new ResponseEntity<List<Insumo>>(this.insumoService.saveInsumos(insumos), HttpStatus.CREATED);	
 		} catch (Exception e) {
-			return null;
+			return new ResponseEntity<List<Insumo>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PostMapping("json")
-	List<Insumo> sendJson(MultipartFile file)
+	ResponseEntity<List<Insumo>> sendJson(MultipartFile file)
 	{
 		try {
 			List<Insumo> insumos = this.insumoService.readInsumosFromJSON(file);
 			if(insumos == null) throw new Exception("Erro ao ler CSV");
-			for(Insumo insumo : insumos)
-			{
-				map.InsereInsumo(insumo);
-			}
+			return new ResponseEntity<List<Insumo>>(this.insumoService.saveInsumos(insumos), HttpStatus.CREATED);
 			
-			return map.pegarInsumos();
 		} catch (Exception e) {
-			return null;
+			return new ResponseEntity<List<Insumo>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

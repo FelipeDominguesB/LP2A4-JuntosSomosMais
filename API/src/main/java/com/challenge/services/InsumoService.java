@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,32 +13,31 @@ import org.springframework.web.multipart.MultipartFile;
 import com.challenge.helpers.CSVHelper;
 import com.challenge.helpers.JSONHelper;
 import com.challenge.models.Insumo;
-import com.challenge.repositories.InsumoMap;
+import com.challenge.repositories.InsumoRepository;
 
 @Service
 public class InsumoService {
 
-	InsumoMap map;
+	InsumoRepository repo;
 	
-	InsumoService()
+	@Autowired
+	InsumoService(InsumoRepository repo)
 	{
-		map = new InsumoMap();
+		this.repo = repo;
 	}
 	
-	public List<Insumo> getInsumoList(Optional<String> type, Optional<String> region)
+	
+	public Optional<Insumo> getInsumoById()
 	{
-		List<Insumo> insumos = new ArrayList<Insumo>();
-		
-		if(type.isEmpty() && region.isEmpty())
-		{
-			insumos = map.pegarInsumos();
-		}
-		else 
-		{
-			insumos = map.pegarInsumosFiltrados(type.orElse("Trabalhoso"), region.orElse("NORTE"));
-		}
-		
-		return insumos;
+		return this.repo.findById((long) 1);
+	}
+	public List<Insumo> getInsumos()
+	{
+		return this.repo.findAll();
+	}
+	public List<Insumo> saveInsumos(List<Insumo> insumos)
+	{
+		return this.repo.saveAll(insumos);
 	}
 	
 	public List<Insumo> readInsumosFromCSV(MultipartFile file)
@@ -45,7 +45,6 @@ public class InsumoService {
 		try {
 			return CSVHelper.csvToInsumo(file.getInputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
@@ -56,7 +55,6 @@ public class InsumoService {
 		try {
 			return JSONHelper.JSONToInsumo(file.getInputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
