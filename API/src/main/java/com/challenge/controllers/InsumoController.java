@@ -2,7 +2,9 @@ package com.challenge.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +26,7 @@ import com.challenge.models.InsumoPage;
 import com.challenge.repositories.InsumoMap;
 
 @RestController
+@RequestMapping("/api/insumos")
 public class InsumoController {
 	
 	InsumoMap map;
@@ -33,36 +37,29 @@ public class InsumoController {
 	}
 	
 	
-	@GetMapping("getInsumos")
-	List<Insumo> getInsumos()
-	{
-		return map.pegarInsumos();
+	@GetMapping()
+	InsumoPage get(@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "1") int index, @RequestParam() Optional<String> type, @RequestParam Optional<String> region)
+	{	
+		
+		List<Insumo> insumos = new ArrayList<Insumo>();
+		
+		if(type.isEmpty() && region.isEmpty())
+		{
+			insumos = map.pegarInsumos();
+		}
+		else 
+		{
+			insumos = map.pegarInsumosFiltrados(type.orElse("Trabalhoso"), region.orElse("NORTE"));
+		}
+		return map.pegarInsumosPaginados(insumos, size, index);
 	}
 	
-	@GetMapping("getInsumosComFiltro/attr")
-	List<Insumo> getInsumosComFiltro(@RequestParam String type, @RequestParam String region)
-	{
-		return map.pegarInsumosFiltrados(type, region);
-	}
-	
-	@GetMapping("getInsumosPaginados/attr")
-	InsumoPage getInsumosPaginados(@RequestParam int size, @RequestParam int index)
-	{
-		return map.pegarInsumosPaginados(map.pegarInsumos(), size, index);
-	}
-	
-	
-	@GetMapping("getInsumosPaginadosComFiltro/attr")
-	InsumoPage getInsumosPaginadosComFiltro(@RequestParam String type, @RequestParam String region, @RequestParam int size, @RequestParam int index)
-	{
-		return map.pegarInsumosPaginados(map.pegarInsumosFiltrados(type, region), size, index);
-	}
 	
 	@PostMapping("csv")
-	List<Insumo> sendCSV()
+	List<Insumo> sendCSV(MultipartFile file)
 	{
 		try {
-			List<Insumo> insumos = CSVHelper.csvToInsumo(new URL("https://storage.googleapis.com/juntossomosmais-code-challenge/input-backend.csv").openStream());
+			List<Insumo> insumos = CSVHelper.csvToInsumo(file.getInputStream());
 			for(Insumo insumo : insumos)
 			{
 				map.InsereInsumo(insumo);
@@ -75,10 +72,10 @@ public class InsumoController {
 	}
 	
 	@PostMapping("json")
-	List<Insumo> sendJson()
+	List<Insumo> sendJson(MultipartFile file)
 	{
 		try {
-			List<Insumo> insumos = JSONHelper.JSONToInsumo(new URL("https://storage.googleapis.com/juntossomosmais-code-challenge/input-backend.json").openStream());
+			List<Insumo> insumos = JSONHelper.JSONToInsumo(file.getInputStream());
 			for(Insumo insumo : insumos)
 			{
 				map.InsereInsumo(insumo);
