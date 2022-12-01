@@ -1,5 +1,8 @@
 package com.challenge.helpers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.challenge.models.Coordinates;
 
 public class GeneralHelpers {
@@ -21,5 +24,42 @@ public class GeneralHelpers {
 		}
 			
 		return tipo;
+	}
+	
+	public static String GetRegiao(String estado)
+	{
+		
+		Map<String, String> regiao = new HashMap<String, String>();
+		regiao.put("acre","NORTE");
+		regiao.put("alagoas","NORDESTE");
+		regiao.put("amapá","NORTE");
+		regiao.put("amazonas","NORTE");
+		regiao.put("bahia","NORDESTE");
+		regiao.put("ceará","NORDESTE");
+		regiao.put("distrito federal","CENTRO-OESTE");
+		regiao.put("espírito santo","SUDESTE");
+		regiao.put("goiás","CENTRO-OESTE");
+		regiao.put("maranhão","NORDESTE");
+		regiao.put("mato grosso do sul","CENTRO-OESTE");
+		regiao.put("mato grosso","CENTRO-OESTE");
+		regiao.put("minas gerais","SUDESTE");
+		regiao.put("pará","NORTE");
+		regiao.put("paraíba","NORDESTE");
+		regiao.put("paraná","SUL");
+		
+		regiao.put("pernambuco","NORDESTE");
+		regiao.put("piauí","NORDESTE");
+		regiao.put("rio de janeiro","SUDESTE");
+		regiao.put("rio grande do norte","NORDESTE");
+		regiao.put("rio grande do sul","SUL");
+		regiao.put("rondônia","NORTE");
+		regiao.put("roraima","NORTE");
+		regiao.put("santa catarina","SUL");
+		regiao.put("são paulo","SUDESTE");
+		regiao.put("sergipe","NORDESTE");
+		regiao.put("tocantins","NORTE");
+		
+		
+		return regiao.get(estado);
 	}
 }

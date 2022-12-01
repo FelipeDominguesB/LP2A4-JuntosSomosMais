@@ -57,6 +57,7 @@ public class JSONHelper {
 				insumo.location.timezones = new Timezone((String) timezoneObj.get("offset"), (String) timezoneObj.get("offset"));
 				insumo.type = GeneralHelpers.GerarTipo(insumo.location.coordinates);
 				insumo.nationality = "BR";
+				insumo.region = GeneralHelpers.GetRegiao(insumo.location.state);
 				
 				DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 				DateTime dt = dtf.parseDateTime((String) dobObj.get("date"));

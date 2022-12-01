@@ -19,6 +19,7 @@ public class Insumo {
 	public String cellPhone;
 	public PictureInfo pictureInfo;
 	public String nationality;
+	public String region;
 	
 	
 }
