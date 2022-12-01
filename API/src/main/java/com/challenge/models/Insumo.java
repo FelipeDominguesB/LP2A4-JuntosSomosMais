@@ -7,8 +7,9 @@ import javax.persistence.Id;
 @Entity
 public class Insumo {
 
-	private @Id @GeneratedValue Long id;
-	public String gender;
+	public Integer id;
+	public char gender;
+	public String type;
 	public String email;
 	public NameInfo name;
 	public Location location;
@@ -17,6 +18,7 @@ public class Insumo {
 	public String telePhone;
 	public String cellPhone;
 	public PictureInfo pictureInfo;
+	public String nationality;
 	
 	
 }

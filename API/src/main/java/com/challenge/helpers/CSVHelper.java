@@ -51,7 +51,7 @@ public class CSVHelper {
 			    	  try {
 			    		  Insumo insumo = new Insumo();
 			    		  
-				    	  insumo.gender = csvRecord.get(0);
+				    	  insumo.gender = csvRecord.get(0).toUpperCase().charAt(0);
 				    	  insumo.email = csvRecord.get("email");
 				    	  insumo.name = new NameInfo(csvRecord.get("name__title"), csvRecord.get("name__first"), csvRecord.get("name__last"));
 				    	  insumo.pictureInfo = new PictureInfo(csvRecord.get("picture__large"),csvRecord.get("picture__medium"),csvRecord.get("picture__thumbnail"));
@@ -60,8 +60,8 @@ public class CSVHelper {
 				    	  insumo.location = new Location(csvRecord.get("location__street"), csvRecord.get("location__city"), csvRecord.get("location__state"), Integer.parseInt(csvRecord.get("location__postcode")));
 				    	  insumo.location.coordinates = new Coordinates(csvRecord.get("location__coordinates__latitude"), csvRecord.get("location__coordinates__longitude"));
 				    	  insumo.location.timezones = new Timezone(csvRecord.get("location__timezone__offset"), csvRecord.get("location__timezone__description"));
-				    	  
-				    	  
+				    	  insumo.type = GeneralHelpers.GerarTipo(insumo.location.coordinates);
+				    	  insumo.nationality = "BR";
 				    	  DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 				    	  DateTime dt = dtf.parseDateTime(csvRecord.get("dob__date"));
 				    	  insumo.dateOfBirth = new DateInfo(dt.toDate());

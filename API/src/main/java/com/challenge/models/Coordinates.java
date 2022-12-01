@@ -4,10 +4,10 @@ public class Coordinates {
 
 	public Coordinates(String latitude, String longitude)
 	{
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.latitude = Double.parseDouble(latitude);
+		this.longitude =  Double.parseDouble(longitude);
 	}
 	
-	public String latitude;
-	public String longitude;
+	public Double latitude;
+	public Double longitude;
 }
