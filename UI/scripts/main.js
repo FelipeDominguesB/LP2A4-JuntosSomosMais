@@ -58,6 +58,11 @@ function search()
         document.getElementById('next').disabled = (data.pageNumber+1 == data.totalPages);
 
         data.results.forEach(person => createCard(person));
+    })
+    .catch(err =>{
+        document.querySelector('#pageInfo').innerHTML = 0 + ' de ' + 0;
+        document.getElementById('prev').disabled = true;
+        document.getElementById('next').disabled = true;
     });
 }
 
