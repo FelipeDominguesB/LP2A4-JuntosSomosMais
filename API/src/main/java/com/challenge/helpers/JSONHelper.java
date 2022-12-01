@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import com.challenge.models.Coordinates;
 import com.challenge.models.Insumo;
+import com.challenge.models.Location;
 import com.challenge.models.NameInfo;
 import com.challenge.models.PictureInfo;
 import com.challenge.models.Timezone;
@@ -50,6 +51,7 @@ public class JSONHelper {
 				insumo.setCellPhone((String) jsonObj.get("cell"));
 				insumo.setTelePhone((String) jsonObj.get("phone"));
 				insumo.setPictureInfo(new PictureInfo((String) pictureObj.get("large"), (String) pictureObj.get("medium"), (String) pictureObj.get("thumbnail")));
+				insumo.setLocation(new Location((String) locationObj.get("street"), (String) locationObj.get("city"), (String) locationObj.get("state"), (Integer) locationObj.get("postcode")));
 				insumo.getLocation().setCoordinates(new Coordinates((String) coordinatesObj.get("latitude"), (String) coordinatesObj.get("longitude")));
 				insumo.getLocation().setTimezones(new Timezone((String) timezoneObj.get("offset"), (String) timezoneObj.get("offset")));
 				insumo.setType(GeneralHelpers.GerarTipo(insumo.getLocation().getCoordinates()));
@@ -68,7 +70,8 @@ public class JSONHelper {
 			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block]
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 		  return insumos;
