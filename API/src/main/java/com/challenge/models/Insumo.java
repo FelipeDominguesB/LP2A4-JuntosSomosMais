@@ -7,6 +7,8 @@ import javax.persistence.Id;
 @Entity
 public class Insumo {
 
+	
+	
 	public Integer id;
 	public char gender;
 	public String type;

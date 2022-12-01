@@ -3,8 +3,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
-@ComponentScan(basePackages = { "com.challenge.controllers"} )
+@SpringBootApplication(scanBasePackages={"com.example.application"})
+@ComponentScan(basePackages = { "com.challenge.controllers", "com.challenge.services", "com.challenge.repositories"} )
 
 public class Application {
 

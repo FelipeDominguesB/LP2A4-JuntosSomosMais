@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,16 +25,20 @@ import com.challenge.helpers.JSONHelper;
 import com.challenge.models.Insumo;
 import com.challenge.models.InsumoPage;
 import com.challenge.repositories.InsumoMap;
+import com.challenge.services.InsumoService;
 
 @RestController
 @RequestMapping("/api/insumos")
 public class InsumoController {
 	
 	InsumoMap map;
+	InsumoService insumoService;
 	
-	InsumoController()
+	@Autowired
+	InsumoController(InsumoService insumoService)
 	{
 		map = new InsumoMap();
+		this.insumoService = insumoService;
 	}
 	
 	
@@ -41,17 +46,7 @@ public class InsumoController {
 	InsumoPage get(@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "1") int index, @RequestParam() Optional<String> type, @RequestParam Optional<String> region)
 	{	
 		
-		List<Insumo> insumos = new ArrayList<Insumo>();
-		
-		if(type.isEmpty() && region.isEmpty())
-		{
-			insumos = map.pegarInsumos();
-		}
-		else 
-		{
-			insumos = map.pegarInsumosFiltrados(type.orElse("Trabalhoso"), region.orElse("NORTE"));
-		}
-		return map.pegarInsumosPaginados(insumos, size, index);
+		return map.pegarInsumosPaginados(this.insumoService.getInsumoList(type, region), size, index);
 	}
 	
 	
@@ -59,14 +54,16 @@ public class InsumoController {
 	List<Insumo> sendCSV(MultipartFile file)
 	{
 		try {
-			List<Insumo> insumos = CSVHelper.csvToInsumo(file.getInputStream());
+			List<Insumo> insumos = this.insumoService.readInsumosFromCSV(file);
+			 
+			if(insumos == null) throw new Exception("Erro ao ler CSV");
 			for(Insumo insumo : insumos)
 			{
 				map.InsereInsumo(insumo);
 			}
 			
 			return map.pegarInsumos();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -75,14 +72,15 @@ public class InsumoController {
 	List<Insumo> sendJson(MultipartFile file)
 	{
 		try {
-			List<Insumo> insumos = JSONHelper.JSONToInsumo(file.getInputStream());
+			List<Insumo> insumos = this.insumoService.readInsumosFromJSON(file);
+			if(insumos == null) throw new Exception("Erro ao ler CSV");
 			for(Insumo insumo : insumos)
 			{
 				map.InsereInsumo(insumo);
 			}
 			
 			return map.pegarInsumos();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
