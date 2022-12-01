@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class InsumoController {
 		this.insumoService = insumoService;
 	}
 	
-	
+	@CrossOrigin
 	@GetMapping("byId")
 	ResponseEntity<Optional<Insumo>> getById(Optional<Long> id)
 	{	
@@ -44,6 +45,7 @@ public class InsumoController {
 		}
 	}
 	
+	@CrossOrigin
 	@GetMapping()
 	ResponseEntity<Map<String, Object>> get(@RequestParam(defaultValue = "0") int index, @RequestParam(defaultValue = "5") int size, @RequestParam() Optional<String> type, @RequestParam Optional<String> region)
 	{	
