@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages={"com.example.application"})
+@SpringBootApplication
 @ComponentScan(basePackages = { "com.challenge.controllers", "com.challenge.services", "com.challenge.repositories"} )
 @EntityScan("com.challenge.models")
 @EnableJpaRepositories("com.challenge.repositories")
